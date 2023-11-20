@@ -1,11 +1,12 @@
 ABOUT:
 --------------------------------------------------------------------
 For this project, I have created a simple EER diagram, which I will
-base everything on. The purpose is not to design a complex or useful
+base everything on - each project is the same, just written for a 
+different SQL DSL. The purpose is not to design a complex or useful
 database, but to explore the direct differences between SQL DSL's. 
-The main focus is to use procedural-language features, introduce
-stored procedures, functions, and events, and any other language-
-specific features that might be available. 
+The main focus is to use every procedural-language feature. This 
+includes stored procedures, functions, sequences, events, and any 
+other language-specific features that might be available. 
 The database schema is comprised of three entities, in Union. Each
 folder targets one DSL, and includes a batch script, which proves
 the functionality of every script. Running this is like running a set
@@ -40,8 +41,10 @@ It is called whenever a colour is inserted, and automatically prefixes
 it with 'rgb_'. Proof of this functionality can be seen when Query.sql
 is called, because the colour (including the prefix) will be displayed
 in the terminal.
+The Insert statements are all performed inside a procedural block, 
+which is specific to each language.
 
-TO RUN:
+RUN:
 --------------------------------------------------------------------
 Make sure you have a valid RDBMS installed, running, and connected.
 It must be compatible and configured to run with the relevant DSL.
