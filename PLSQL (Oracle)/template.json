@@ -39,14 +39,14 @@
         "MyDBInstance": {
             "Type": "AWS::RDS::DBInstance",
             "Properties": {
-                "DBInstanceIdentifier": { "Fn::Sub": "${DBParameter.Value}" },
+                "DBInstanceIdentifier": { "Ref": "DBParameter" },
                 "DBInstanceClass": "db.t3.micro",
                 "Engine": "oracle-se2", 
                 "EngineVersion": "19.3",
                 "AllocatedStorage": "20",
-                "DBName": { "Fn::Sub": "${DBParameter.Value}" },
-                "MasterUsername": { "Fn::Sub": "${UserParameter.Value}" },
-                "MasterUserPassword": { "Fn::Sub": "${PasswordParameter.Value}" },
+                "DBName": { "Ref": "DBParameter" },
+                "MasterUsername": { "Ref": "UserParameter" },
+                "MasterUserPassword": { "Ref": "PasswordParameter" },
                 "DeletionProtection": false
             }
         },
@@ -94,7 +94,7 @@
                 "FunctionName": "MyExecuteSQLFunction",
                 "Runtime": "python3.9",
                 "Code": {
-                    "S3Bucket": { "Fn::Sub": "${DBParameter.Value}" },
+                    "S3Bucket": { "Ref": "DBParameter" },
                     "S3Key": "DatabaseManager.py"
                 },
                 "Timeout": 300,
