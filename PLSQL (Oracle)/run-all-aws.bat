@@ -8,13 +8,7 @@ aws s3 cp Query.sql s3://testdatabasedistinctname/Query.sql
 aws s3 cp Setup.sql s3://testdatabasedistinctname/Setup.sql
 echo "(1)Complete"
 echo "(2)Provisioning infrastructure..."
-aws cloudformation create-stack ^
-    --stack-name testdatabasedistinctname ^
-    --template-body file://template.json ^
-    --parameters ParameterKey=DBParameter,ParameterValue=testdatabasedistinctname ^
-                 ParameterKey=UserParameter,ParameterValue=someusername ^
-                 ParameterKey=PasswordParameter,ParameterValue=password ^
-                 ParameterKey=PortParameter,ParameterValue=1521
+aws cloudformation create-stack --stack-name testdatabasedistinctname --template-body file://template.json --parameters ParameterKey=s3bucket,ParameterValue=testdatabasedistinctname ParameterKey=DBParameter,ParameterValue=testdb ParameterKey=UserParameter,ParameterValue=someusername ParameterKey=PasswordParameter,ParameterValue=password ParameterKey=PortParameter,ParameterValue=1521 ParameterKey=instanceParameter,ParameterValue=db.t3.small ParameterKey=engineParameter,ParameterValue=oracle-ee --capabilities CAPABILITY_IAM
 echo "(2) Complete"
 echo "Press any key to terminate all infrastructure"
 pause
@@ -24,5 +18,6 @@ aws s3 rm s3://testdatabasedistinctname/Drop.sql
 aws s3 rm s3://testdatabasedistinctname/Query.sql
 aws s3 rm s3://testdatabasedistinctname/Setup.sql
 aws s3 rb s3://testdatabasedistinctname
-aws cloudformation delete-stack ^
-    --stack-name s3://testdatabasedistinctname ^
+aws cloudformation delete-stack --stack-name testdatabasedistinctname
+echo "Press any key to exit terminal"
+pause

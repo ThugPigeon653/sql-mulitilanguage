@@ -33,21 +33,30 @@
         "PortParameter": {
         "Type": "Number",
         "Default": 5432
+        },
+        "s3bucket": {
+        "Type": "String",
+        "Default": "testdatabasedistinctname"
+        },
+        "dbInstanceParameter":{
+            "Type":"String"
+        },
+        "engineParameter":{
+            "Type":"String"
         }
     },
     "Resources": {
-        "MyDBInstance": {
-            "Type": "AWS::RDS::DBInstance",
-            "Properties": {
-                "DBInstanceIdentifier": { "Ref": "DBParameter" },
-                "DBInstanceClass": "db.t3.micro",
-                "Engine": "oracle-se2", 
-                "EngineVersion": "19.3",
-                "AllocatedStorage": "20",
-                "DBName": { "Ref": "DBParameter" },
-                "MasterUsername": { "Ref": "UserParameter" },
-                "MasterUserPassword": { "Ref": "PasswordParameter" },
-                "DeletionProtection": false
+        "rdsTestSqlSecGroup":{
+            "Type" : "AWS::EC2::SecurityGroup",
+            "Properties" : {
+                "GroupDescription" : "Allow http to client host",
+                "VpcId" : {"Ref" : "myVPC"},
+                "SecurityGroupIngress" : [{
+                    "IpProtocol" : "tcp",
+                    "FromPort" : { "Ref": "PortParameter" },
+                    "ToPort" : { "Ref": "PortParameter" },
+                    "CidrIp" : "0.0.0.0/0"
+                }]
             }
         },
         "MyLambdaExecutionRole": {
@@ -94,18 +103,18 @@
                 "FunctionName": "MyExecuteSQLFunction",
                 "Runtime": "python3.9",
                 "Code": {
-                    "S3Bucket": { "Ref": "DBParameter" },
+                    "S3Bucket": { "Ref": "s3bucket" },
                     "S3Key": "DatabaseManager.py"
                 },
                 "Timeout": 300,
                 "Environment": {
                     "Variables": {
-                        "DB_HOST": { "Fn::GetAtt": ["MyDBInstance", "Endpoint.Address"] },
+                        "DB_HOST": { "Fn::GetAtt": ["DBInstance", "Endpoint.Address"] },
                         "DB_PORT": { "Ref": "PortParameter" },
                         "DB_NAME": { "Ref": "DBParameter" },
                         "DB_USER": { "Ref": "UserParameter" },
                         "DB_PASSWORD": { "Ref": "PasswordParameter" },
-                        "DB_ARN": { "Fn::GetAtt": ["MyDBInstance", "Arn"] }
+                        "DB_ARN": { "Fn::GetAtt": ["DBInstance", "Arn"] }
                     }
                 }
             }
@@ -115,9 +124,10 @@
             "Properties": {
                 "ServiceToken": { "Fn::GetAtt": ["ExecuteSQLFunction", "Arn"] },
                 "DBInstanceName": { "Ref": "DBParameter" },
-                "S3Bucket": { "Ref": "DBParameter" },
+                "S3Bucket": { "Ref": "s3bucket" },
                 "SqlFileName": "Create.sql"
-            }
+            },
+            "DependsOn":"DBInstance"
         }
     }  
 }
