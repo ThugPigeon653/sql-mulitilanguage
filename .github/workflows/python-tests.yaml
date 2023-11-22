@@ -20,6 +20,7 @@ jobs:
 
       - name: Install sqlcmd
         run: |
+          sudo apt-get remove --purge libodbc1 odbcinst1debian2 odbcinst unixodbc msodbcsql18 mssql-tools18 unixodbc-dev
           curl https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc
           curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
           sudo apt-get update
