@@ -15,7 +15,7 @@ jobs:
 
       - name: Set execution permission
         run: |
-          chmod +x T-SQL_(Microsoft-SQL)/run-all.sh
+          chmod +x "T-SQL_(Microsoft-SQL)/run-all.sh"
 
       - name: Set up SQL Server
         run: |
