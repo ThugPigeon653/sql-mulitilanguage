@@ -21,8 +21,8 @@ jobs:
       - name: Install sqlcmd
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget
-          wget https://aka.ms/sqlcmdexe -O sqlcmd.zip
+          sudo apt-get install -y curl
+          curl -LJO https://aka.ms/sqlcmdexe
           unzip -q sqlcmd.zip -d /sqlcmd
           export PATH=$PATH:/sqlcmd
           sqlcmd -? > /dev/null
