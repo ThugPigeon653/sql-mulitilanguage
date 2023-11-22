@@ -46,11 +46,10 @@
         }
     },
     "Resources": {
-        "rdsTestSqlSecGroup":{
+        "ec2TestSqlSecGroup":{
             "Type" : "AWS::EC2::SecurityGroup",
             "Properties" : {
                 "GroupDescription" : "Allow http to client host",
-                "VpcId" : {"Ref" : "myVPC"},
                 "SecurityGroupIngress" : [{
                     "IpProtocol" : "tcp",
                     "FromPort" : { "Ref": "PortParameter" },
@@ -58,6 +57,33 @@
                     "CidrIp" : "0.0.0.0/0"
                 }]
             }
+        },
+        "rdsTestSqlSecGroup": {
+            "Type": "AWS::RDS::DBSecurityGroup",
+            "Properties": {
+            "GroupDescription" : "Allow http to client host",
+                "DBSecurityGroupIngress": [
+                    {
+                        "EC2SecurityGroupId": { "Fn::GetAtt": ["ec2TestSqlSecGroup", "GroupId"] }
+                    }
+                ]
+            }
+        },
+        "DBInstance": {
+            "Type": "AWS::RDS::DBInstance",
+            "Properties": {
+                "DBInstanceIdentifier": { "Ref": "DBParameter" },
+                "DBInstanceClass": { "Ref": "dbInstanceParameter" },
+                "DBSecurityGroups": [{ "Ref":"rdsTestSqlSecGroup"}],
+                "Engine": {"Ref": "engineParameter"}, 
+                "AllocatedStorage": "20",
+                "DBName": { "Ref": "DBParameter" },
+                "MasterUsername": { "Ref": "UserParameter" },
+                "MasterUserPassword": { "Ref": "PasswordParameter" },
+                "MultiAZ" : false,
+                "DeletionProtection": false
+            },
+            "DependsOn":"rdsTestSqlSecGroup"
         },
         "MyLambdaExecutionRole": {
             "Type": "AWS::IAM::Role",
