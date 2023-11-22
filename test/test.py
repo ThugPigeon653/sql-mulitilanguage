@@ -4,12 +4,13 @@ import os
 
 class testSQL(unittest.TestCase):
     def test_tsql(self):
+        print(os.curdir+" -------------")
         os.chdir("T-SQL_(Microsoft_SQL)")
         p = Popen("run-all.sh", stdout=PIPE, stderr=PIPE, shell=True)
         stdout, stderr = p.communicate()
         self.assertEqual(stderr, b'')
         os.chdir("..")
-        
+
     def test_oracle(self):
         os.chdir('PLSQL_(Oracle)')
         print("done")
