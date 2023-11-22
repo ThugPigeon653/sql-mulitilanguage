@@ -19,7 +19,7 @@ jobs:
           python-version: 3.x
 
       - name: Run tests
-        run: pytest -s test/test.py
+        run: python -m unittest test/test.py
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
