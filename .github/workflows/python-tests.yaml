@@ -15,6 +15,7 @@ jobs:
 
       - name: List contents of the directory
         run: |
+          ls
           ls -l "T-SQL_(Microsoft-SQL)"
         shell: bash
 
