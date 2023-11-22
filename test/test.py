@@ -11,9 +11,22 @@ class testSQL(unittest.TestCase):
         os.chdir("T-SQL_(Microsoft_SQL)")
         
         print(os.listdir(os.curdir))
-        p = Popen(os.path.abspath("run-all.sh"), stdout=PIPE, stderr=PIPE, shell=True)
+        p = Popen('docker exec -it sql_server_container /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P password -d master -i Create.sql', stdout=PIPE, stderr=PIPE, shell=True)
         stdout, stderr = p.communicate()
         self.assertEqual(stderr, b'')
+        p = Popen('docker exec -it sql_server_container /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P password -d master -i Setup.sql', stdout=PIPE, stderr=PIPE, shell=True)
+        stdout, stderr = p.communicate()
+        self.assertEqual(stderr, b'')
+        p = Popen('docker exec -it sql_server_container /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P password -d master -i Insert.sql', stdout=PIPE, stderr=PIPE, shell=True)
+        stdout, stderr = p.communicate()
+        self.assertEqual(stderr, b'')
+        p = Popen('docker exec -it sql_server_container /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P password -d master -i Query.sql', stdout=PIPE, stderr=PIPE, shell=True)
+        stdout, stderr = p.communicate()
+        self.assertEqual(stderr, b'')
+        p = Popen('docker exec -it sql_server_container /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P password -d master -i Drop.sql', stdout=PIPE, stderr=PIPE, shell=True)
+        stdout, stderr = p.communicate()
+        self.assertEqual(stderr, b'')
+
         os.chdir("..")
 
     def test_oracle(self):
