@@ -20,12 +20,12 @@ jobs:
 
       - name: Install sqlcmd
         run: |
-          sudo apt-get update
-          sudo apt-get install -y curl
-          curl -LJO https://aka.ms/sqlcmdexe
-          unzip -q sqlcmd.zip -d /sqlcmd
-          export PATH=$PATH:/sqlcmd
-          sqlcmd -? > /dev/null
+          sudo yum install -y mssql-tools18 unixODBC-devel
+          sudo yum check-update
+          sudo yum update mssql-tools18
+          echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bash_profile
+          echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc
+          source ~/.bashrc
 
       - name: Setup py installation
         uses: actions/setup-python@v2
