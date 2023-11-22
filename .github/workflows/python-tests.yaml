@@ -13,11 +13,14 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v2
 
+      - name: Set execution permission
+        run: |
+          ls
+          sudo chmod +x "T-SQL_(Microsoft-SQL)/run-all.sh"
       - name: Set up SQL Server
         run: |
           docker run -e 'ACCEPT_EULA=Y' -e 'MSSQL_SA_PASSWORD=password' -p 1433:1433 --name sql_server_container -d mcr.microsoft.com/mssql/server:2022-latest
           sleep 30
-
       - name: Setup py installation
         uses: actions/setup-python@v2
         with: 
