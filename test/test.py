@@ -6,7 +6,8 @@ sys.path.insert(0, '.')
 
 class testSQL(unittest.TestCase):
     def test_tsql(self):
-        print(os.curdir+" -------------")
+        print("-----------------------")
+        print(os.listdir)
         os.chdir("/T-SQL_(Microsoft_SQL)")
         p = Popen("run-all.sh", stdout=PIPE, stderr=PIPE, shell=True)
         stdout, stderr = p.communicate()
