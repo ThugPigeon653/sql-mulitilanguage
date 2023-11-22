@@ -1,6 +1,8 @@
 from subprocess import Popen, PIPE
 import unittest
 import os
+import sys
+sys.path.insert(0, '.') 
 
 class testSQL(unittest.TestCase):
     def test_tsql(self):
