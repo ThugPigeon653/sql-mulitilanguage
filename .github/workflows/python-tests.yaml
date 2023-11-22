@@ -13,16 +13,9 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v2
 
-      - name: List contents of the directory
-        run: |
-          ls
-          ls -l "T-SQL_(Microsoft-SQL)"
-        shell: bash
-
       - name: Set execution permission
         run: |
-          ls
-          sudo chmod +x 'T-SQL_(Microsoft-SQL)/run-all.sh'
+          sudo chmod +x 'T-SQL_(Microsoft_SQL)/run-all.sh'
           
       - name: Set up SQL Server
         run: |
