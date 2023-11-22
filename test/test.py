@@ -11,7 +11,7 @@ class testSQL(unittest.TestCase):
         os.chdir("T-SQL_(Microsoft_SQL)")
         
         print(os.listdir(os.curdir))
-        p = Popen("run-all.sh", stdout=PIPE, stderr=PIPE, shell=True)
+        p = Popen(os.path.abspath("run-all.sh"), stdout=PIPE, stderr=PIPE, shell=True)
         stdout, stderr = p.communicate()
         self.assertEqual(stderr, b'')
         os.chdir("..")
