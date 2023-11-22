@@ -18,17 +18,6 @@ jobs:
           docker run -e 'ACCEPT_EULA=Y' -e 'MSSQL_SA_PASSWORD=password' -p 1433:1433 --name sql_server_container -d mcr.microsoft.com/mssql/server:2022-latest
           sleep 30
 
-      - name: Install sqlcmd
-        run: |
-          sudo apt-get remove --purge libodbc1 odbcinst1debian2 odbcinst unixodbc msodbcsql18 mssql-tools18 unixodbc-dev
-          curl https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc
-          curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
-          sudo apt-get update
-          sudo apt-get install mssql-tools18 unixodbc-dev
-          echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bash_profile
-          echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc
-          source ~/.bashrc
-
       - name: Setup py installation
         uses: actions/setup-python@v2
         with: 
