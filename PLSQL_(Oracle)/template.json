@@ -144,16 +144,6 @@
                     }
                 }
             }
-        },
-        "InvokeDDLFunction": {
-            "Type": "Custom::InvokeFunction",
-            "Properties": {
-                "ServiceToken": { "Fn::GetAtt": ["ExecuteSQLFunction", "Arn"] },
-                "DBInstanceName": { "Ref": "DBParameter" },
-                "S3Bucket": { "Ref": "s3bucket" },
-                "SqlFileName": "Create.sql"
-            },
-            "DependsOn":"DBInstance"
         }
     }  
 }
