@@ -13,6 +13,18 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v2
 
+      - name: Set up SQL Server
+        run: |
+          docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=password' -p 1433:1433 --name sql_server_container -d mcr.microsoft.com/mssql/server
+          Start-Sleep -Seconds 30
+
+      - name: Install sqlcmd
+        run: |
+          Invoke-WebRequest -Uri https://aka.ms/sqlcmdexe -OutFile sqlcmd.zip
+          Expand-Archive -Path sqlcmd.zip -DestinationPath C:\sqlcmd
+          $env:PATH = "C:\sqlcmd\;$(System.Environment::GetEnvironmentVariable('PATH', [System.EnvironmentVariableTarget]::Machine))"
+          sqlcmd -? | Out-Null
+
       - name: Setup py installation
         uses: actions/setup-python@v2
         with: 

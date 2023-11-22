@@ -1,5 +1,5 @@
-sqlcmd -S %COMPUTERNAME%\MSSQLSERVER01 -E -i Create.sql
-sqlcmd -S %COMPUTERNAME%\MSSQLSERVER01 -E -i Setup.sql
-sqlcmd -S %COMPUTERNAME%\MSSQLSERVER01 -E -i Insert.sql
-sqlcmd -S %COMPUTERNAME%\MSSQLSERVER01 -E -i Query.sql
-sqlcmd -S %COMPUTERNAME%\MSSQLSERVER01 -E -i Drop.sql
+sqlcmd -S %COMPUTERNAME%\MSSQLSERVER01 -P password -i Create.sql
+sqlcmd -S %COMPUTERNAME%\MSSQLSERVER01 -P password -i Setup.sql
+sqlcmd -S %COMPUTERNAME%\MSSQLSERVER01 -P password -i Insert.sql
+sqlcmd -S %COMPUTERNAME%\MSSQLSERVER01 -P password -i Query.sql
+sqlcmd -S %COMPUTERNAME%\MSSQLSERVER01 -P password -i Drop.sql
