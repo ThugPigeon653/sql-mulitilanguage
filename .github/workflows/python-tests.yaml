@@ -25,6 +25,15 @@ jobs:
         uses: actions/setup-python@v2
         with: 
           python-version: 3.x
+      
+      - name: Install ODBC Driver for SQL Server
+        run: sudo apt-get install -y unixodbc-dev
+
+      - name: Print ODBC Configuration
+        run: cat /etc/odbcinst.ini
+
+      - name: Debug ODBC Environment
+        run: odbcinst -j
 
       - name: Install dependencies
         run: |
