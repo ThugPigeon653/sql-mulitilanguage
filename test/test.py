@@ -11,11 +11,11 @@ class testSQL(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.connection = pyodbc.connect(
-            'Trusted_Connection=Yes'
-            'Driver={ODBC Driver 17 for SQL Server}'
-            'Server=localhost'
-            'PWD=password'
-            'Database=master'
+            'Trusted_Connection=Yes;'
+            'Driver={ODBC Driver 17 for SQL Server};'
+            'Server=localhost;'
+            'PWD=password;'
+            'Database=master;'
         )
         cls.cursor = cls.connection.cursor()
 
