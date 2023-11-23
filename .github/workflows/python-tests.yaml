@@ -82,7 +82,7 @@ jobs:
 
       - name: Verify Oracle Instant Client installation
         run: |
-          ls /opt/oracle/instantclient-basic-linux.x64-21.1.0.0.0
+          ls /opt/oracle
           echo $LD_LIBRARY_PATH
 
       - name: Wait for oracle container
