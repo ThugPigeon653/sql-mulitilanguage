@@ -19,10 +19,12 @@ class testSQL(unittest.TestCase):
         print(result)
         sock.close()
         cls.connection = pyodbc.connect(
-            'Trusted_Connection=Yes;'
-            'Driver={ODBC Driver 17 for SQL Server};'
-            'Server=127.0.0.1,1433;'
-            'PWD=password'
+            f'Trusted_Connection=Yes;'
+            f'Driver={{ODBC Driver 17 for SQL Server}};'
+            f'Server={os.getenv("SQL_SERVER")};'
+            f'UID={os.getenv("SQL_UID")};'
+            f'PWD={os.getenv("SQL_PWD")};'
+            f'Database={os.getenv("SQL_DATABASE")};'
         )
         print("*******")
         cls.cursor = cls.connection.cursor()
