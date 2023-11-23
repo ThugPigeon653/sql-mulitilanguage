@@ -3,10 +3,6 @@ import unittest
 import os
 import sys
 import pyodbc
-import subprocess
-import platform
-import time
-
 
 sys.path.insert(0, '.')
 
@@ -45,15 +41,10 @@ class testSQL(unittest.TestCase):
         self.execute_sql_file('Drop.sql')
         self.assertTrue(self.execute_sql_file('Schema.sql'))
         self.assertTrue(self.execute_sql_file('Create.sql'))
-        system_platform = platform.system()
-        if system_platform == 'Windows':
-            subprocess.run(["run-setup.bat"], shell=True, text=True)
-        elif system_platform == 'Linux':
-            subprocess.run(['bash', "run-setup.sh"], text=True)
-        else:
-            self.assertTrue(False)
-            print("Platform incompatible")
-        time.sleep(1)
+        self.assertTrue(self.execute_sql_file('CreateSequence.sql'))
+        self.assertTrue(self.execute_sql_file('CreateTrigger.sql'))
+        self.assertTrue(self.execute_sql_file('CreateProcedure.sql'))
+        self.assertTrue(self.execute_sql_file('CreateFunction.sql'))
         self.assertTrue(self.execute_sql_file('Insert.sql'))
         self.assertTrue(self.execute_sql_file('Query.sql'))
         self.assertTrue(self.execute_sql_file('Drop.sql'))
