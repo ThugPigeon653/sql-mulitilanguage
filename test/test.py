@@ -13,7 +13,7 @@ class testSQL(unittest.TestCase):
         cls.connection = pyodbc.connect(
             Trusted_Connection='Yes',
             Driver='{ODBC Driver 17 for SQL Server}',
-            Server='localhost',
+            Server='sql-server',
             UID='sa',
             PWD='password'
         )
