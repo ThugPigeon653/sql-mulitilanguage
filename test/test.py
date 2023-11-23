@@ -11,7 +11,7 @@ class testSQL(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        host = '127.0.0.1'
+        host = 'localhost'
         port = 1433  
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         result = sock.connect_ex((host, port))
@@ -27,8 +27,8 @@ class testSQL(unittest.TestCase):
             f'Server={sql_server};'
             f'UID={sql_uid};'
             f'PWD={sql_pwd};'
-            f'Database={sql_database};'
-            'timeout=30;' 
+            f'Database={sql_database};',
+            timeout=30
         )
         print("*******")
         cls.cursor = cls.connection.cursor()
