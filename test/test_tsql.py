@@ -56,20 +56,3 @@ class testSQL(unittest.TestCase):
         self.assertTrue(self.execute_sql_file('Drop.sql', self.cursor, self.connection))
 
         os.chdir("..")
-
-    def test_oracle(self):
-        os.chdir("PLSQL_(Oracle)")
-        oracle_connection = cx_Oracle.connect("system/oracle@localhost:49161/XE")
-        oracle_cursor = oracle_connection.cursor()
-        self.assertTrue(self.execute_sql_file('Schema.sql', oracle_cursor, oracle_connection))
-        self.assertTrue(self.execute_sql_file('Create.sql', oracle_cursor, oracle_connection))
-        self.assertTrue(self.execute_sql_file('CreateSequence.sql', oracle_cursor, oracle_connection))
-        self.assertTrue(self.execute_sql_file('CreateTrigger.sql', oracle_cursor, oracle_connection))
-        self.assertTrue(self.execute_sql_file('CreateProcedure.sql', oracle_cursor, oracle_connection))
-        self.assertTrue(self.execute_sql_file('CreateFunction.sql', oracle_cursor, oracle_connection))
-        self.assertTrue(self.execute_sql_file('Insert.sql', oracle_cursor, oracle_connection))
-        self.assertTrue(self.execute_sql_file('Query.sql', oracle_cursor, oracle_connection))
-        self.assertTrue(self.execute_sql_file('Drop.sql', oracle_cursor, oracle_connection))
-        oracle_cursor.close()
-        oracle_connection.close()
-        os.chdir("..")

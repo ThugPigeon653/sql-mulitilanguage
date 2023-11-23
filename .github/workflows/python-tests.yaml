@@ -14,10 +14,6 @@ jobs:
         run: |
           docker run -e 'ACCEPT_EULA=Y' -e 'MSSQL_SA_PASSWORD=StrongPword*8' -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
 
-      - name: Run oracle-sql container
-        run: |
-          docker run -d -p 49161:1521 oracleinanutshell/oracle-xe-11g
-
       - name: Checkout source
         uses: actions/checkout@v2
 
@@ -36,19 +32,12 @@ jobs:
         run: |
           python -c "import socket; host='localhost'; port=1433; sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM); result = sock.connect_ex((host, port)); print(f'Service Availability: {result}'); sock.close()"
 
-      - name: Set Environment Variables
+      - name: Set Environment Variables (TSQL)
         run: |
           echo "SQL_SERVER=localhost" >> $GITHUB_ENV
           echo "SQL_DATABASE=master" >> $GITHUB_ENV
           echo "SQL_UID=sa" >> $GITHUB_ENV
           echo "SQL_PWD=StrongPword*8" >> $GITHUB_ENV
-
-      - name: Print Connection String Details
-        run: |
-          echo "SQL_SERVER=${SQL_SERVER}"
-          echo "SQL_DATABASE=${SQL_DATABASE}"
-          echo "SQL_UID=${SQL_UID}"
-          echo "SQL_PWD=${SQL_PWD}"
 
       - name: Debug ODBC Environment
         run: odbcinst -j
@@ -61,8 +50,31 @@ jobs:
       - name: See running containers
         run: docker ps
 
-      - name: Run tests
-        run: python -m unittest test/test.py
+      - name: TSQL Tests
+        run: python -m unittest test/test_tsql.py
+
+      - name: Stop ms-sql container
+        run: |
+          CONTAINER_ID=$(docker ps -q --filter ancestor=mcr.microsoft.com/mssql/server:2022-latest)
+          if [ ! -z "$CONTAINER_ID" ]; then
+            docker stop $CONTAINER_ID
+          fi
+
+      - name: Run oracle container
+        run: docker run -it --name oracle-server -e ORACLE_PWD=StrongPword*8 oraclelinux:8
+
+      - name: Install oracle client
+        run: sudo yum install -y oracle-instantclient-basic-21.12.0.0.0-1.el8.x86_64.rpm
+
+      - name: Set Environment Variables (Oracle)
+        run: |
+          echo "ORACLE_SERVER=localhost" >> $GITHUB_ENV
+          echo "ORACLE_SERVICE_NAME=ORCL" >> $GITHUB_ENV
+          echo "ORACLE_USER=SYS" >> $GITHUB_ENV
+          echo "ORACLE_PASSWORD=StrongPword*8" >> $GITHUB_ENV  
+
+      - name: PLSQL tests
+        run: python -m unittest test/test_plsql.py
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
