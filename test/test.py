@@ -10,27 +10,14 @@ class testSQL(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        try:
-            cls.connection = pyodbc.connect(
-                Trusted_Connection='Yes',
-                Driver='{ODBC Driver 17 for SQL Server}',
-                Server='sql-server',
-                UID='sa',
-                PWD='password'
-            )
-            cls.cursor = cls.connection.cursor()
-        except:
-            try:
-                cls.connection = pyodbc.connect(
-                    Trusted_Connection='Yes',
-                    Driver='{ODBC Driver 17 for SQL Server}',
-                    Server='localhost',
-                    UID='sa',
-                    PWD='password'
-                )
-            except:
-                raise ConnectionError
-                
+        cls.connection = pyodbc.connect(
+            Trusted_Connection='Yes',
+            Driver='{ODBC Driver 17 for SQL Server}',
+            Server='localhost',
+            UID='sa',
+            PWD='password'
+        )
+        cls.cursor = cls.connection.cursor()
 
     @classmethod
     def tearDownClass(cls):
