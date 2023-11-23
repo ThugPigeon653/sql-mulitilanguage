@@ -2,30 +2,61 @@ from subprocess import Popen, PIPE
 import unittest
 import os
 import sys
-sys.path.insert(0, '.') 
+import pyodbc
+import subprocess
+import platform
+import time
+
+
+sys.path.insert(0, '.')
 
 class testSQL(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.connection = pyodbc.connect(
+            Trusted_Connection='Yes',
+            Driver='{ODBC Driver 17 for SQL Server}',
+            Server='localhost',
+            UID='sa',
+            PWD='password'
+        )
+        cls.cursor = cls.connection.cursor()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.cursor.close()
+        cls.connection.close()
+
+    def execute_sql_file(self, sql_file_path):
+        try:
+            with open(sql_file_path, 'r') as sql_file:
+                sql_script = sql_file.read()
+                self.cursor.execute(sql_script)
+                if not sql_script.strip().upper().startswith("SELECT"):
+                    self.connection.commit()
+            return True
+        except Exception as e:
+            print(f"Error executing SQL file {sql_file_path}: {str(e)}")
+            return False
+
     def test_tsql(self):
-        print("-----------------------")
-        print(os.listdir(os.curdir))
         os.chdir("T-SQL_(Microsoft_SQL)")
-        
-        print(os.listdir(os.curdir))
-        p = Popen('docker exec -it sql_server_container /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P password -d master -tCreate.sql', stdout=PIPE, stderr=PIPE, shell=True)
-        stdout, stderr = p.communicate()
-        self.assertEqual(stderr, b'')
-        p = Popen('docker exec -it sql_server_container /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P password -d master -tSetup.sql', stdout=PIPE, stderr=PIPE, shell=True)
-        stdout, stderr = p.communicate()
-        self.assertEqual(stderr, b'')
-        p = Popen('docker exec -it sql_server_container /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P password -d master -tInsert.sql', stdout=PIPE, stderr=PIPE, shell=True)
-        stdout, stderr = p.communicate()
-        self.assertEqual(stderr, b'')
-        p = Popen('docker exec -it sql_server_container /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P password -d master -tQuery.sql', stdout=PIPE, stderr=PIPE, shell=True)
-        stdout, stderr = p.communicate()
-        self.assertEqual(stderr, b'')
-        p = Popen('docker exec -it sql_server_container /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P password -d master -tDrop.sql', stdout=PIPE, stderr=PIPE, shell=True)
-        stdout, stderr = p.communicate()
-        self.assertEqual(stderr, b'')
+        self.execute_sql_file('Drop.sql')
+        self.assertTrue(self.execute_sql_file('Schema.sql'))
+        self.assertTrue(self.execute_sql_file('Create.sql'))
+        system_platform = platform.system()
+        if system_platform == 'Windows':
+            subprocess.run(["run-setup.bat"], shell=True, text=True)
+        elif system_platform == 'Linux':
+            subprocess.run(['bash', "run-setup.sh"], text=True)
+        else:
+            self.assertTrue(False)
+            print("Platform incompatible")
+        time.sleep(1)
+        self.assertTrue(self.execute_sql_file('Insert.sql'))
+        self.assertTrue(self.execute_sql_file('Query.sql'))
+        self.assertTrue(self.execute_sql_file('Drop.sql'))
 
         os.chdir("..")
 
