@@ -91,6 +91,9 @@ jobs:
     needs: [plsql-test, tsql-test]
     runs-on: ubuntu-latest
     steps:
+      - name: Install Docker client
+        run: apk add --no-cache docker-cli
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
