@@ -57,12 +57,11 @@ jobs:
     steps:
       - name: Install dependencies
         run: |
-          sudo yum install -y python3-pip
+          yum install -y python3-pip
           python3 -m pip install --upgrade pip
           pip install cx_oracle
-
-      - name: Checkout source
-        uses: actions/checkout@v2
+            - name: Checkout source
+              uses: actions/checkout@v2
 
       - name: Setup py installation
         uses: actions/setup-python@v2
