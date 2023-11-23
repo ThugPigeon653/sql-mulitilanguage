@@ -3,7 +3,6 @@ import unittest
 import os
 import sys
 import pyodbc
-import cx_Oracle
 
 sys.path.insert(0, '.')
 
