@@ -3,7 +3,7 @@ import unittest
 import os
 import sys
 import pyodbc
-import socket
+import cx_Oracle
 
 sys.path.insert(0, '.')
 
@@ -11,13 +11,6 @@ class testSQL(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        host = 'localhost'
-        port = 1433  
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        result = sock.connect_ex((host, port))
-        print("*******")
-        print(result)
-        sock.close()
         sql_server = os.getenv("SQL_SERVER")
         sql_database = os.getenv("SQL_DATABASE")
         sql_uid = os.getenv("SQL_UID")
@@ -30,7 +23,6 @@ class testSQL(unittest.TestCase):
             f'Database={sql_database};',
             timeout=30
         )
-        print("*******")
         cls.cursor = cls.connection.cursor()
 
     @classmethod
@@ -38,13 +30,13 @@ class testSQL(unittest.TestCase):
         cls.cursor.close()
         cls.connection.close()
 
-    def execute_sql_file(self, sql_file_path):
+    def execute_sql_file(self, sql_file_path, cursor, connection):
         try:
             with open(sql_file_path, 'r') as sql_file:
                 sql_script = sql_file.read()
-                self.cursor.execute(sql_script)
+                cursor.execute(sql_script)
                 if not sql_script.strip().upper().startswith("SELECT"):
-                    self.connection.commit()
+                    connection.commit()
             return True
         except Exception as e:
             print(f"Error executing SQL file {sql_file_path}: {str(e)}")
@@ -53,20 +45,30 @@ class testSQL(unittest.TestCase):
     def test_tsql(self):
         os.chdir("T-SQL_(Microsoft_SQL)")
         self.execute_sql_file('Drop.sql')
-        self.assertTrue(self.execute_sql_file('Schema.sql'))
-        self.assertTrue(self.execute_sql_file('Create.sql'))
-        self.assertTrue(self.execute_sql_file('CreateSequence.sql'))
-        self.assertTrue(self.execute_sql_file('CreateTrigger.sql'))
-        self.assertTrue(self.execute_sql_file('CreateProcedure.sql'))
-        self.assertTrue(self.execute_sql_file('CreateFunction.sql'))
-        self.assertTrue(self.execute_sql_file('Insert.sql'))
-        self.assertTrue(self.execute_sql_file('Query.sql'))
-        self.assertTrue(self.execute_sql_file('Drop.sql'))
+        self.assertTrue(self.execute_sql_file('Schema.sql', self.cursor, self.connection))
+        self.assertTrue(self.execute_sql_file('Create.sql', self.cursor, self.connection))
+        self.assertTrue(self.execute_sql_file('CreateSequence.sql', self.cursor, self.connection))
+        self.assertTrue(self.execute_sql_file('CreateTrigger.sql', self.cursor, self.connection))
+        self.assertTrue(self.execute_sql_file('CreateProcedure.sql', self.cursor, self.connection))
+        self.assertTrue(self.execute_sql_file('CreateFunction.sql', self.cursor, self.connection))
+        self.assertTrue(self.execute_sql_file('Insert.sql', self.cursor, self.connection))
+        self.assertTrue(self.execute_sql_file('Query.sql', self.cursor, self.connection))
+        self.assertTrue(self.execute_sql_file('Drop.sql', self.cursor, self.connection))
 
         os.chdir("..")
 
     def test_oracle(self):
-        os.chdir('PLSQL_(Oracle)')
-        print("done")
-        self.assertEqual(True, True)
-        os.chdir('..')
+        os.chdir("PLSQL_(Oracle)")
+        oracle_connection = cx_Oracle.connect("localhost:1521")
+        oracle_cursor = oracle_connection.cursor()
+        self.assertTrue(self.execute_sql_file('Schema.sql', oracle_cursor, oracle_connection))
+        self.assertTrue(self.execute_sql_file('Create.sql', oracle_cursor, oracle_connection))
+        self.assertTrue(self.execute_sql_file('CreateSequence.sql', oracle_cursor, oracle_connection))
+        self.assertTrue(self.execute_sql_file('CreateTrigger.sql', oracle_cursor, oracle_connection))
+        self.assertTrue(self.execute_sql_file('CreateProcedure.sql', oracle_cursor, oracle_connection))
+        self.assertTrue(self.execute_sql_file('CreateFunction.sql', oracle_cursor, oracle_connection))
+        self.assertTrue(self.execute_sql_file('Insert.sql', oracle_cursor, oracle_connection))
+        self.assertTrue(self.execute_sql_file('Query.sql', oracle_cursor, oracle_connection))
+        self.assertTrue(self.execute_sql_file('Drop.sql', oracle_cursor, oracle_connection))
+        oracle_cursor.close()
+        oracle_connection.close()
