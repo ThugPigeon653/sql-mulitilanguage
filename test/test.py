@@ -18,14 +18,18 @@ class testSQL(unittest.TestCase):
         print("*******")
         print(result)
         sock.close()
+        sql_server = os.getenv("SQL_SERVER")
+        sql_database = os.getenv("SQL_DATABASE")
+        sql_uid = os.getenv("SQL_UID")
+        sql_pwd = os.getenv("SQL_PWD")
         cls.connection = pyodbc.connect(
             f'Trusted_Connection=Yes;'
             f'Driver={{ODBC Driver 17 for SQL Server}};'
-            f'Server={os.getenv("SQL_SERVER")};'
-            f'UID={os.getenv("SQL_UID")};'
-            f'PWD={os.getenv("SQL_PWD")};'
-            f'Database={os.getenv("SQL_DATABASE")};'
-            'Timeout=30;'
+            f'Server={sql_server};'
+            f'UID={sql_uid};'
+            f'PWD={sql_pwd};'
+            f'Database={sql_database};'
+            'timeout=30;' 
         )
         print("*******")
         cls.cursor = cls.connection.cursor()

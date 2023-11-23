@@ -38,10 +38,11 @@ jobs:
 
       - name: Set Environment Variables
         run: |
-          echo "SQL_SERVER=localhost" >> $GITHUB_ENV
+          echo "SQL_SERVER=master" >> $GITHUB_ENV
           echo "SQL_DATABASE=master" >> $GITHUB_ENV
           echo "SQL_UID=sa" >> $GITHUB_ENV
           echo "SQL_PWD=password" >> $GITHUB_ENV
+
 
       - name: Debug ODBC Environment
         run: odbcinst -j
