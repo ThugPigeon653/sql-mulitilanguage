@@ -72,3 +72,4 @@ class testSQL(unittest.TestCase):
         self.assertTrue(self.execute_sql_file('Drop.sql', oracle_cursor, oracle_connection))
         oracle_cursor.close()
         oracle_connection.close()
+        os.chdir("..")
