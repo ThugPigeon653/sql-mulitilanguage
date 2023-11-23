@@ -44,7 +44,7 @@ class testSQL(unittest.TestCase):
 
     def test_tsql(self):
         os.chdir("T-SQL_(Microsoft_SQL)")
-        self.execute_sql_file('Drop.sql')
+        self.assertTrue(self.execute_sql_file('Drop.sql', self.cursor, self.connection))
         self.assertTrue(self.execute_sql_file('Schema.sql', self.cursor, self.connection))
         self.assertTrue(self.execute_sql_file('Create.sql', self.cursor, self.connection))
         self.assertTrue(self.execute_sql_file('CreateSequence.sql', self.cursor, self.connection))
