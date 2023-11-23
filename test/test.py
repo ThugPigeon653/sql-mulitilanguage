@@ -23,7 +23,6 @@ class testSQL(unittest.TestCase):
         sql_uid = os.getenv("SQL_UID")
         sql_pwd = os.getenv("SQL_PWD")
         cls.connection = pyodbc.connect(
-            f'Trusted_Connection=Yes;'
             f'Driver={{ODBC Driver 17 for SQL Server}};'
             f'Server={sql_server};'
             f'UID={sql_uid};'
