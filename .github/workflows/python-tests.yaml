@@ -15,7 +15,7 @@ jobs:
 
       - name: Set execution permission
         run: |
-          sudo chmod +x 'T-SQL_(Microsoft_SQL)/run-all.sh'
+          sudo chmod +x 'T-SQL_(Microsoft_SQL)/run-setup.sh'
 
       - name: Install dependencies
         run: |
