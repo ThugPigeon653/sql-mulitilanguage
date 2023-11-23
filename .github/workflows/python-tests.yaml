@@ -29,11 +29,6 @@ jobs:
       - name: Install ODBC Driver for SQL Server
         run: sudo apt-get install -y unixodbc-dev
 
-      - name: Print ODBC Configuration
-        run: |
-          cat /etc/odbc.ini
-          cat ~/.odbc.ini
-
       - name: Check SQL Server Service Availability
         run: |
           python -c "import socket; host='localhost'; port=1433; sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM); result = sock.connect_ex((host, port)); print(f'Service Availability: {result}'); sock.close()"
