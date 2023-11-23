@@ -56,9 +56,6 @@ jobs:
       - name: Install oracle client
         run: sudo yum install -y oracle-instantclient-basic-21.12.0.0.0-1.el8.x86_64.rpm
 
-      - name: Install oracle client
-        run: sudo yum install -y oracle-instantclient-basic-21.12.0.0.0-1.el8.x86_64.rpm
-
       - name: Wait for oracle container
         run: sleep 20
 
