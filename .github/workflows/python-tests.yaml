@@ -64,7 +64,7 @@ jobs:
           yum install -y amazon-linux-extras
           amazon-linux-extras enable docker
           yum install -y docker
-          service docker start
+          sudo systemctl start docker
           usermod -aG docker $USER
 
       - name: Install dependencies
