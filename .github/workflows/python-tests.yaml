@@ -54,7 +54,19 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: amazonlinux:2
+    services:
+      docker:
+        image: docker:20.10.12-dind
     steps:
+
+      - name: Install Docker client
+        run: |
+          yum install -y amazon-linux-extras
+          amazon-linux-extras enable docker
+          yum install -y docker
+          service docker start
+          usermod -aG docker $USER
+
       - name: Install dependencies
         run: |
           yum install -y python3-pip
@@ -91,9 +103,6 @@ jobs:
     needs: [plsql-test, tsql-test]
     runs-on: ubuntu-latest
     steps:
-      - name: Install Docker client
-        run: apk add --no-cache docker-cli
-
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
