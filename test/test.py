@@ -3,6 +3,7 @@ import unittest
 import os
 import sys
 import pyodbc
+import socket
 
 sys.path.insert(0, '.')
 
@@ -10,12 +11,20 @@ class testSQL(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        host = 'localhost'
+        port = 1433  
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        result = sock.connect_ex((host, port))
+        print("*******")
+        print(result)
+        sock.close()
         cls.connection = pyodbc.connect(
             'Trusted_Connection=Yes;'
             'Driver={ODBC Driver 17 for SQL Server};'
             'Server=127.0.0.1,1433;'
             'PWD=password'
         )
+        print("*******")
         cls.cursor = cls.connection.cursor()
 
     @classmethod
