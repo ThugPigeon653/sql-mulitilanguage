@@ -64,8 +64,10 @@ jobs:
           yum install -y amazon-linux-extras
           amazon-linux-extras enable docker
           yum install -y docker
-          sudo systemctl start docker
           usermod -aG docker $USER
+
+      - name: Start docker
+        run: systemctl start docker
 
       - name: Install dependencies
         run: |
@@ -84,7 +86,7 @@ jobs:
         run: docker run --name oracle-server -e ORACLE_PWD=StrongPword*8 oraclelinux:8
 
       - name: Install oracle client
-        run: sudo yum install -y oracle-instantclient-basic-21.12.0.0.0-1.el8.x86_64.rpm
+        run: yum install -y oracle-instantclient-basic-21.12.0.0.0-1.el8.x86_64.rpm
 
       - name: Wait for oracle container
         run: sleep 20
