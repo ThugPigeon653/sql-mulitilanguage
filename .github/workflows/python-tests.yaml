@@ -34,7 +34,7 @@ jobs:
 
       - name: Set Environment Variables
         run: |
-          echo "SQL_SERVER=master" >> $GITHUB_ENV
+          echo "SQL_SERVER=localhost" >> $GITHUB_ENV
           echo "SQL_DATABASE=master" >> $GITHUB_ENV
           echo "SQL_UID=sa" >> $GITHUB_ENV
           echo "SQL_PWD=StrongPword*8" >> $GITHUB_ENV
