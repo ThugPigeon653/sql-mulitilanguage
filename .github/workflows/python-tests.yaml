@@ -80,11 +80,6 @@ jobs:
           sudo sh -c "echo /opt/oracle/instantclient_21_4 > /etc/ld.so.conf.d/oracle-instantclient.conf"
           sudo ldconfig
 
-      - name: Verify Oracle Instant Client installation
-        run: |
-          ls /opt/oracle
-          echo $LD_LIBRARY_PATH
-
       - name: Wait for oracle container
         run: sleep 20
 
@@ -93,7 +88,13 @@ jobs:
           echo "ORACLE_SERVER=localhost" >> $GITHUB_ENV
           echo "ORACLE_SERVICE_NAME=ORCL" >> $GITHUB_ENV
           echo "ORACLE_USER=SYS" >> $GITHUB_ENV
-          echo "ORACLE_PASSWORD=StrongPword*8" >> $GITHUB_ENV  
+          echo "ORACLE_PASSWORD=StrongPword*8" >> $GITHUB_ENV
+          echo "LD_LIBRARY_PATH=/opt/oracle/instantclient_21_1:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+
+      - name: Verify Oracle Instant Client installation
+        run: |
+          ls /opt/oracle
+          echo $LD_LIBRARY_PATH
 
       - name: PLSQL tests
         run: python -m unittest test/test_plsql.py
