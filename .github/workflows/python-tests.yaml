@@ -26,7 +26,7 @@ jobs:
         run: sudo apt-get install -y unixodbc-dev
 
       - name: Wait
-        run: sleep 240
+        run: sleep 20
 
       - name: Check SQL Server Service Availability
         run: |
@@ -54,6 +54,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pyodbc
+
+      - name: See running containers
+        run: docker ps
 
       - name: Run tests
         run: python -m unittest test/test.py
