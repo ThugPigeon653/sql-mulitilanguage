@@ -14,7 +14,6 @@ class testSQL(unittest.TestCase):
             'Trusted_Connection=Yes'
             'Driver={ODBC Driver 17 for SQL Server}'
             'Server=sql-server'
-            'UID=sa'
             'PWD=password'
             'Database=master'
         )
