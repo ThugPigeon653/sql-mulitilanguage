@@ -16,11 +16,6 @@ jobs:
       - name: Set execution permission
         run: |
           sudo chmod +x 'T-SQL_(Microsoft_SQL)/run-setup.sh'
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pyodbc
             
       - name: Set up SQL Server
         run: |
@@ -30,6 +25,11 @@ jobs:
         uses: actions/setup-python@v2
         with: 
           python-version: 3.x
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyodbc
 
       - name: Run tests
         run: python -m unittest test/test.py
