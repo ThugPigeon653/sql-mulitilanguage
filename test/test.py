@@ -25,6 +25,7 @@ class testSQL(unittest.TestCase):
             f'UID={os.getenv("SQL_UID")};'
             f'PWD={os.getenv("SQL_PWD")};'
             f'Database={os.getenv("SQL_DATABASE")};'
+            'Timeout=30;'
         )
         print("*******")
         cls.cursor = cls.connection.cursor()
