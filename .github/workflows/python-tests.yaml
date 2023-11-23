@@ -16,13 +16,11 @@ jobs:
           SA_PASSWORD: password
         ports:
           - 1433:1433
+
     steps:
       - name: Checkout source
         uses: actions/checkout@v2
 
-      - name: Wait for container to start
-        run: sleep 300
-          
       - name: Setup py installation
         uses: actions/setup-python@v2
         with: 
