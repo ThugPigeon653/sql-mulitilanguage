@@ -59,7 +59,7 @@ class testSQL(unittest.TestCase):
 
     def test_oracle(self):
         os.chdir("PLSQL_(Oracle)")
-        oracle_connection = cx_Oracle.connect("localhost:1521")
+        oracle_connection = cx_Oracle.connect("system/oracle@localhost:49161/XE")
         oracle_cursor = oracle_connection.cursor()
         self.assertTrue(self.execute_sql_file('Schema.sql', oracle_cursor, oracle_connection))
         self.assertTrue(self.execute_sql_file('Create.sql', oracle_cursor, oracle_connection))
