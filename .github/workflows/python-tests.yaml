@@ -79,7 +79,6 @@ jobs:
         run: |
           docker run --name oracle-server -e ORACLE_PWD=StrongPword*8 -t -d oraclelinux:8
           sleep 5
-          docker exec oracle-server yum install -y oracle-database-tools
           docker logs oracle-server
       
       - name: Install oracle client
