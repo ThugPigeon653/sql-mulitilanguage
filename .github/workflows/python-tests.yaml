@@ -70,6 +70,7 @@ jobs:
       - name: Run oracle container
         run: docker run --name oracle-server -e ORACLE_PWD=StrongPword*8 oraclelinux:8
 
+
       - name: Install oracle client
         run: |
           cd /opt/
@@ -87,8 +88,9 @@ jobs:
           echo "ORACLE_SERVER=localhost" >> $GITHUB_ENV
           echo "ORACLE_SERVICE_NAME=ORCL" >> $GITHUB_ENV
           echo "ORACLE_USER=SYS" >> $GITHUB_ENV
-          echo "ORACLE_PASSWORD=StrongPword*8" >> $GITHUB_ENV
+          echo "ORACLE_PASSWORD=$ORACLE_PWD" >> $GITHUB_ENV
           echo "LD_LIBRARY_PATH=/opt/oracle/instantclient_21_1:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+
 
       - name: Debug Environment Variables
         run: |
