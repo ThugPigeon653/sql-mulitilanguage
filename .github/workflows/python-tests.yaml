@@ -93,7 +93,8 @@ jobs:
 
       - name: Verify Oracle Instant Client installation
         run: |
-          ls -la /opt/oracle
+          ls -la /opt/oracle/instantclient_21_1
+
           echo $LD_LIBRARY_PATH
 
       - name: PLSQL tests
