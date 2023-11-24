@@ -78,7 +78,7 @@ jobs:
           sudo unzip instantclient-basic-linux.x64-21.1.0.0.0.zip
           sudo apt update
           sudo apt install libaio1
-          sudo sh -c "echo /opt/oracle/instantclient_21_4 > /etc/ld.so.conf.d/oracle-instantclient.conf"
+          sudo sh -c "echo /opt/oracle/instantclient_21_1 > /etc/ld.so.conf.d/oracle-instantclient.conf"
           sudo ldconfig
 
 #      - name: Wait for oracle container
