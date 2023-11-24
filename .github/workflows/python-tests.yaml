@@ -105,11 +105,6 @@ jobs:
         run: |
           docker ps -a
           docker logs oracle-server
-          
-      - name: Set db login
-        run: |
-          docker exec -u 0 -it oracle-server /bin/bash
-          ./setPassword.sh StrongPword8
 
       - name: Verify Oracle Instant Client installation
         run: |
