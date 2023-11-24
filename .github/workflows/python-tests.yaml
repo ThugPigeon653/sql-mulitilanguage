@@ -54,6 +54,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      - name: Set Environment Variables (Oracle)
+        run: |
+          echo "ORACLE_SERVER=localhost" >> $GITHUB_ENV
+          echo "ORACLE_SERVICE_NAME=ORCL" >> $GITHUB_ENV
+          echo "ORACLE_USER=SYS" >> $GITHUB_ENV
+          echo "ORACLE_PASSWORD=StrongPword*8" >> $GITHUB_ENV
+          echo "LD_LIBRARY_PATH=/opt/oracle/instantclient_21_1:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+
       - name: Checkout source
         uses: actions/checkout@v2
 
@@ -70,7 +78,6 @@ jobs:
       - name: Run oracle container
         run: docker run --name oracle-server -e ORACLE_PWD=StrongPword*8 oraclelinux:8
 
-
       - name: Install oracle client
         run: |
           cd /opt/
@@ -82,23 +89,6 @@ jobs:
           sudo apt install libaio1
           sudo sh -c "echo /opt/oracle/instantclient_21_1 > /etc/ld.so.conf.d/oracle-instantclient.conf"
           sudo ldconfig
-
-      - name: Set Environment Variables (Oracle)
-        run: |
-          echo "ORACLE_SERVER=localhost" >> $GITHUB_ENV
-          echo "ORACLE_SERVICE_NAME=ORCL" >> $GITHUB_ENV
-          echo "ORACLE_USER=SYS" >> $GITHUB_ENV
-          echo "ORACLE_PASSWORD=$ORACLE_PWD" >> $GITHUB_ENV
-          echo "LD_LIBRARY_PATH=/opt/oracle/instantclient_21_1:$LD_LIBRARY_PATH" >> $GITHUB_ENV
-
-
-      - name: Debug Environment Variables
-        run: |
-          echo "ORACLE_SERVER: $ORACLE_SERVER"
-          echo "ORACLE_SERVICE_NAME: $ORACLE_SERVICE_NAME"
-          echo "ORACLE_USER: $ORACLE_USER"
-          echo "ORACLE_PASSWORD: $ORACLE_PASSWORD"
-          echo "LD_LIBRARY_PATH: $LD_LIBRARY_PATH"
 
       - name: Wait for oracle container
         run: sleep 60
