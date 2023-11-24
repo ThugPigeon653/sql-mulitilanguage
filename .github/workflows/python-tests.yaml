@@ -71,6 +71,18 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install cx_Oracle
+      
+      - name: Install oracle client
+        run: |
+          cd /opt/
+          sudo mkdir /opt/oracle
+          cd oracle
+          sudo wget https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-basic-linux.x64-21.1.0.0.0.zip
+          sudo unzip instantclient-basic-linux.x64-21.1.0.0.0.zip
+          sudo apt update
+          sudo apt install libaio1
+          sudo sh -c "echo /opt/oracle/instantclient_21_1 > /etc/ld.so.conf.d/oracle-instantclient.conf"
+          sudo ldconfig
 
       - name: Run oracle container
         run: |
@@ -88,25 +100,12 @@ jobs:
 
       - name: Checkout source
         uses: actions/checkout@v2
-      
-      - name: Install oracle client
-        run: |
-          cd /opt/
-          sudo mkdir /opt/oracle
-          cd oracle
-          sudo wget https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-basic-linux.x64-21.1.0.0.0.zip
-          sudo unzip instantclient-basic-linux.x64-21.1.0.0.0.zip
-          sudo apt update
-          sudo apt install libaio1
-          sudo sh -c "echo /opt/oracle/instantclient_21_1 > /etc/ld.so.conf.d/oracle-instantclient.conf"
-          sudo ldconfig
-
-      - name: Wait for oracle container
-        run: sleep 40
 
       - name: Check Oracle Home
         run: |
+          echo ----
           echo $ORACLE_HOME
+          echo ****
 
       - name: Check Oracle Listener Status
         run: |
