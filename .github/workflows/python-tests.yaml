@@ -57,7 +57,7 @@ jobs:
       - name: Set Environment Variables (Oracle)
         run: |
           echo "ORACLE_SERVER=localhost" >> $GITHUB_ENV
-          echo "ORACLE_SERVICE_NAME=ORCL" >> $GITHUB_ENV
+          echo "ORACLE_SERVICE_NAME=ORCLCDB" >> $GITHUB_ENV
           echo "ORACLE_USER=SYS" >> $GITHUB_ENV
           echo "ORACLE_PASSWORD=StrongPword8" >> $GITHUB_ENV
           echo "LD_LIBRARY_PATH=/opt/oracle/instantclient_21_1:$LD_LIBRARY_PATH" >> $GITHUB_ENV
@@ -92,8 +92,6 @@ jobs:
           echo ----
           docker logs oracle-server
           echo *****
-          docker exec -t oracle-server bash
-          exit
           sleep 1800
           echo ----
           docker logs oracle-server
