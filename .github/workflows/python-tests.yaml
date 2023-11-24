@@ -90,16 +90,16 @@ jobs:
           sudo sh -c "echo /opt/oracle/instantclient_21_1 > /etc/ld.so.conf.d/oracle-instantclient.conf"
           sudo ldconfig
 
+      - name: Check Oracle Listener Status
+        run: docker exec oracle-server lsnrctl status
+
       - name: Wait for oracle container
-        run: sleep 60
+        run: sleep 240
 
       - name: Verify Oracle Instant Client installation
         run: |
           ls -la /opt/oracle/
           ls -la /opt/oracle/instantclient_21_1
-
-      - name: Check Oracle Listener Status
-        run: docker exec oracle-server lsnrctl status
 
       - name: PLSQL tests
         run: python -m unittest test/test_plsql.py
