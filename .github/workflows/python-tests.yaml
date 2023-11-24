@@ -107,7 +107,11 @@ jobs:
           echo "Checking Oracle Port"
           sleep 10  # Adjust sleep time based on Oracle initialization time
           telnet localhost 1521
-          
+
+      - name: Check Oracle Home
+        run: |
+          echo $ORACLE_HOME
+
       - name: Check Oracle Listener Status
         run: |
           docker ps -a
