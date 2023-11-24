@@ -62,9 +62,6 @@ jobs:
           echo "ORACLE_PASSWORD=StrongPword8" >> $GITHUB_ENV
           echo "LD_LIBRARY_PATH=/opt/oracle/instantclient_21_1:$LD_LIBRARY_PATH" >> $GITHUB_ENV
 
-      - name: Checkout source
-        uses: actions/checkout@v2
-
       - name: Setup py installation
         uses: actions/setup-python@v2
         with: 
@@ -84,6 +81,13 @@ jobs:
           docker logs oracle-server
           echo *****
           docker exec -it oracle-server lsnrctl services
+          sleep 30
+          echo ----
+          docker logs oracle-server
+          echo *****
+
+      - name: Checkout source
+        uses: actions/checkout@v2
       
       - name: Install oracle client
         run: |
