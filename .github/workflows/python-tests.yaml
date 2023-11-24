@@ -76,7 +76,9 @@ jobs:
           pip install cx_Oracle
 
       - name: Run oracle container
-        run: docker run --name oracle-server -e ORACLE_PWD=StrongPword*8 oraclelinux:8
+        run: |
+          docker run --name oracle-server -e ORACLE_PWD=StrongPword*8 oraclelinux:8
+          docker start oracle-server
 
       - name: Install oracle client
         run: |
@@ -91,10 +93,12 @@ jobs:
           sudo ldconfig
 
       - name: Wait for oracle container
-        run: sleep 240
+        run: sleep 30
 
       - name: Check Oracle Listener Status
-        run: docker exec oracle-server lsnrctl status
+        run: |
+          docker ps -a
+          docker exec oracle-server lsnrctl status
 
       - name: Verify Oracle Instant Client installation
         run: |
