@@ -100,7 +100,7 @@ jobs:
       - name: Check Oracle Port
         run: |
           echo "Checking Oracle Port"
-          telnet 127.0.0.1 1521
+          telnet localhost 1521
 
       - name: Check Oracle Home
         run: |
