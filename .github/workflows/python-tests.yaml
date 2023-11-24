@@ -92,7 +92,7 @@ jobs:
           echo ----
           docker logs oracle-server
           echo *****
-          docker exec -t oracle-server lsnrctl services
+          docker exec -t oracle-server bash
           sleep 30
           echo ----
           docker logs oracle-server
