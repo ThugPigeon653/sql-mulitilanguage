@@ -96,7 +96,6 @@ jobs:
       - name: Check Oracle Port
         run: |
           echo "Checking Oracle Port"
-          sleep 10  # Adjust sleep time based on Oracle initialization time
           telnet localhost 1521
 
       - name: Wait for oracle container
@@ -105,7 +104,6 @@ jobs:
       - name: Check Oracle Port
         run: |
           echo "Checking Oracle Port"
-          sleep 10  # Adjust sleep time based on Oracle initialization time
           telnet localhost 1521
 
       - name: Check Oracle Home
