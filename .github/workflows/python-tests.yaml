@@ -12,7 +12,7 @@ jobs:
     steps:
 #      - name: Run ms-sql container
 #        run: |
-#          docker run -e 'ACCEPT_EULA=Y' -e 'MSSQL_SA_PASSWORD=StrongPword*8' -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
+#          docker run -e 'ACCEPT_EULA=Y' -e 'MSSQL_SA_PASSWORD=StrongPword8' -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
 
       - name: Checkout source
         uses: actions/checkout@v2
@@ -33,7 +33,7 @@ jobs:
 #          echo "SQL_SERVER=localhost" >> $GITHUB_ENV
 #          echo "SQL_DATABASE=master" >> $GITHUB_ENV
 #          echo "SQL_UID=sa" >> $GITHUB_ENV
-#          echo "SQL_PWD=StrongPword*8" >> $GITHUB_ENV
+#          echo "SQL_PWD=StrongPword8" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: |
@@ -59,7 +59,7 @@ jobs:
           echo "ORACLE_SERVER=localhost" >> $GITHUB_ENV
           echo "ORACLE_SERVICE_NAME=ORCL" >> $GITHUB_ENV
           echo "ORACLE_USER=SYSDBA" >> $GITHUB_ENV
-          echo "ORACLE_PASSWORD=StrongPword*8" >> $GITHUB_ENV
+          echo "ORACLE_PASSWORD=StrongPword8" >> $GITHUB_ENV
           echo "LD_LIBRARY_PATH=/opt/oracle/instantclient_21_1:$LD_LIBRARY_PATH" >> $GITHUB_ENV
 
       - name: Checkout source
@@ -109,7 +109,7 @@ jobs:
       - name: Set db login
         run: |
           docker exec -u 0 -it oracle19c /bin/bash
-          ./setPassword.sh StrongPword*8
+          ./setPassword.sh StrongPword8
 
       - name: Verify Oracle Instant Client installation
         run: |
