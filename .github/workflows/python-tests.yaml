@@ -98,7 +98,6 @@ jobs:
       - name: Check Oracle Listener Status
         run: |
           docker ps -a
-          docker exec oracle-server lsnrctl status
 
       - name: Verify Oracle Instant Client installation
         run: |
