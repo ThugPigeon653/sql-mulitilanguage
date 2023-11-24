@@ -61,7 +61,7 @@ jobs:
         uses: actions/setup-python@v2
         with: 
           python-version: 3.x
-          
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -82,8 +82,8 @@ jobs:
           sudo sh -c "echo /opt/oracle/instantclient_21_1 > /etc/ld.so.conf.d/oracle-instantclient.conf"
           sudo ldconfig
 
-#      - name: Wait for oracle container
-#        run: sleep 20
+      - name: Wait for oracle container
+        run: sleep 30
 
       - name: Set Environment Variables (Oracle)
         run: |
