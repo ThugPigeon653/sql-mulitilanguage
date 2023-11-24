@@ -93,7 +93,8 @@ jobs:
           docker logs oracle-server
           echo *****
           docker exec -t oracle-server bash
-          sleep 30
+          exit
+          sleep 1800
           echo ----
           docker logs oracle-server
           echo *****
