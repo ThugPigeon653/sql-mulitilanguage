@@ -97,11 +97,6 @@ jobs:
       - name: Wait for oracle container
         run: sleep 40
 
-      - name: Check Oracle Port
-        run: |
-          echo "Checking Oracle Port"
-          telnet localhost 1521
-
       - name: Check Oracle Home
         run: |
           echo $ORACLE_HOME
