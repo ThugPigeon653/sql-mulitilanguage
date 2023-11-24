@@ -73,6 +73,7 @@ jobs:
         run: |
           cd /opt/
           sudo mkdir /opt/oracle
+          cd oracle
           sudo wget https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-basic-linux.x64-21.1.0.0.0.zip
           sudo unzip instantclient-basic-linux.x64-21.1.0.0.0.zip
           sudo apt update
@@ -93,11 +94,8 @@ jobs:
 
       - name: Verify Oracle Instant Client installation
         run: |
-          ls -la /
           ls -la /opt/oracle/
           ls -la /opt/oracle/instantclient_21_1
-
-          echo $LD_LIBRARY_PATH
 
       - name: PLSQL tests
         run: python -m unittest test/test_plsql.py
