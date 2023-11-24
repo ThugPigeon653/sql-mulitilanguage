@@ -98,6 +98,9 @@ jobs:
           ls -la /opt/oracle/
           ls -la /opt/oracle/instantclient_21_1
 
+      - name: Check Oracle Listener Status
+        run: docker exec oracle-server lsnrctl status
+
       - name: PLSQL tests
         run: python -m unittest test/test_plsql.py
 
