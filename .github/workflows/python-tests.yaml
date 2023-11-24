@@ -80,8 +80,8 @@ jobs:
           sudo sh -c "echo /opt/oracle/instantclient_21_4 > /etc/ld.so.conf.d/oracle-instantclient.conf"
           sudo ldconfig
 
-      - name: Wait for oracle container
-        run: sleep 20
+#      - name: Wait for oracle container
+#        run: sleep 20
 
       - name: Set Environment Variables (Oracle)
         run: |
@@ -94,6 +94,7 @@ jobs:
       - name: Verify Oracle Instant Client installation
         run: |
           ls -la /
+          ls -la /opt/oracle/
           ls -la /opt/oracle/instantclient_21_1
 
           echo $LD_LIBRARY_PATH
