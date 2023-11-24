@@ -11,7 +11,11 @@ class TestOracleSQL(unittest.TestCase):
         oracle_service_name = os.getenv("ORACLE_SERVICE_NAME")
         oracle_user = os.getenv("ORACLE_USER")
         oracle_password = os.getenv("ORACLE_PASSWORD")
+        print(f"Oracle Server: {oracle_server}")
+        print(f"Oracle Service Name: {oracle_service_name}")
+        print(f"Oracle User: {oracle_user}")
         cls.dsn = cx_Oracle.makedsn(oracle_server, 1521, oracle_service_name)
+        print(f"DSN: {cls.dsn}")
         cls.connection = cx_Oracle.connect(user=oracle_user, password=oracle_password, dsn=cls.dsn)
         cls.cursor = cls.connection.cursor()
 
