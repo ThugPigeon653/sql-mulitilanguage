@@ -77,7 +77,7 @@ jobs:
 
       - name: Run oracle container
         run: |
-          docker run -d --name oracle-server -e ORACLE_PWD=StrongPword*8 -p 1521:1521 container-registry.oracle.com/database/enterprise:21.3.0.0
+          docker run --name oracle-server -e ORACLE_PWD=StrongPword*8 -p 1521:1521 -t -d oracledb19c/oracle.19.3.0-ee
           sleep 5
           docker logs oracle-server
       
