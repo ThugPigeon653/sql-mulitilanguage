@@ -81,6 +81,7 @@ jobs:
           docker run --name oracle-server -p 1521:1521 -p 5500:5500 -v /opt/oracle/oradata -d oracledb19c/oracle.19.3.0-ee:oracle19.3.0-ee
           sleep 5
           docker logs oracle-server
+          docker exec -it oracle-server lsnrctl services
       
       - name: Install oracle client
         run: |
