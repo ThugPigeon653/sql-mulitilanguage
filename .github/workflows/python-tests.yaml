@@ -82,9 +82,6 @@ jobs:
           sudo sh -c "echo /opt/oracle/instantclient_21_1 > /etc/ld.so.conf.d/oracle-instantclient.conf"
           sudo ldconfig
 
-      - name: Wait for oracle container
-        run: sleep 30
-
       - name: Set Environment Variables (Oracle)
         run: |
           echo "ORACLE_SERVER=localhost" >> $GITHUB_ENV
@@ -92,6 +89,17 @@ jobs:
           echo "ORACLE_USER=SYS" >> $GITHUB_ENV
           echo "ORACLE_PASSWORD=StrongPword*8" >> $GITHUB_ENV
           echo "LD_LIBRARY_PATH=/opt/oracle/instantclient_21_1:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+
+      - name: Debug Environment Variables
+        run: |
+          echo "ORACLE_SERVER: $ORACLE_SERVER"
+          echo "ORACLE_SERVICE_NAME: $ORACLE_SERVICE_NAME"
+          echo "ORACLE_USER: $ORACLE_USER"
+          echo "ORACLE_PASSWORD: $ORACLE_PASSWORD"
+          echo "LD_LIBRARY_PATH: $LD_LIBRARY_PATH"
+
+      - name: Wait for oracle container
+        run: sleep 60
 
       - name: Verify Oracle Instant Client installation
         run: |
