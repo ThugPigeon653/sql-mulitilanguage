@@ -92,10 +92,22 @@ jobs:
           sudo apt install libaio1
           sudo sh -c "echo /opt/oracle/instantclient_21_1 > /etc/ld.so.conf.d/oracle-instantclient.conf"
           sudo ldconfig
+      
+      - name: Check Oracle Port
+        run: |
+          echo "Checking Oracle Port"
+          sleep 10  # Adjust sleep time based on Oracle initialization time
+          telnet localhost 1521
 
       - name: Wait for oracle container
         run: sleep 30
 
+      - name: Check Oracle Port
+        run: |
+          echo "Checking Oracle Port"
+          sleep 10  # Adjust sleep time based on Oracle initialization time
+          telnet localhost 1521
+          
       - name: Check Oracle Listener Status
         run: |
           docker ps -a
