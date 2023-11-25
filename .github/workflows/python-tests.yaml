@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-#      - name: Run ms-sql container
-#        run: |
-#          docker run -e 'ACCEPT_EULA=Y' -e 'MSSQL_SA_PASSWORD=StrongPword8' -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
+      - name: Run ms-sql container
+        run: |
+          docker run -e 'ACCEPT_EULA=Y' -e 'MSSQL_SA_PASSWORD=StrongPword8' -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
 
       - name: Checkout source
         uses: actions/checkout@v2
@@ -22,33 +22,33 @@ jobs:
         with: 
           python-version: 3.x
       
-#      - name: Install ODBC Driver for SQL Server
-#        run: sudo apt-get install -y unixodbc-dev
+      - name: Install ODBC Driver for SQL Server
+        run: sudo apt-get install -y unixodbc-dev
 
-#      - name: Wait
-#        run: sleep 20
+      - name: Wait
+        run: sleep 20
 
-#      - name: Set Environment Variables (TSQL)
-#        run: |
-#          echo "SQL_SERVER=localhost" >> $GITHUB_ENV
-#          echo "SQL_DATABASE=master" >> $GITHUB_ENV
-#          echo "SQL_UID=sa" >> $GITHUB_ENV
-#          echo "SQL_PWD=StrongPword8" >> $GITHUB_ENV
+      - name: Set Environment Variables (TSQL)
+        run: |
+          echo "SQL_SERVER=localhost" >> $GITHUB_ENV
+          echo "SQL_DATABASE=master" >> $GITHUB_ENV
+          echo "SQL_UID=sa" >> $GITHUB_ENV
+          echo "SQL_PWD=StrongPword8" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install pyodbc
 
-#      - name: TSQL Tests
-#        run: python -m unittest test/test_tsql.py
+      - name: TSQL Tests
+        run: python -m unittest test/test_tsql.py
 
-#      - name: Stop ms-sql container
-#        run: |
-#          CONTAINER_ID=$(docker ps -q --filter ancestor=mcr.microsoft.com/mssql/server:2022-latest)
-#          if [ ! -z "$CONTAINER_ID" ]; then
-#            docker stop $CONTAINER_ID
-#          fi
+      - name: Stop ms-sql container
+        run: |
+          CONTAINER_ID=$(docker ps -q --filter ancestor=mcr.microsoft.com/mssql/server:2022-latest)
+          if [ ! -z "$CONTAINER_ID" ]; then
+            docker stop $CONTAINER_ID
+          fi
 
   plsql-test:
     runs-on: ubuntu-latest
@@ -88,14 +88,6 @@ jobs:
         run: |
           docker pull oracledb19c/oracle.19.3.0-ee:oracle19.3.0-ee
           docker run --name oracle-server -p 1521:1521 -p 5500:5500 -v /opt/oracle/oradata -d oracledb19c/oracle.19.3.0-ee:oracle19.3.0-ee
-          sleep 30
-          echo ----
-          docker logs oracle-server
-          echo *****
-          sleep 1800
-          echo ----
-          docker logs oracle-server
-          echo *****
 
       - name: Checkout source
         uses: actions/checkout@v2
