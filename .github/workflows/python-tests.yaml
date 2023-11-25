@@ -100,10 +100,10 @@ jobs:
           echo $ORACLE_HOME
           echo ****
 
-      - name: Check Oracle Listener Status
-        run: |
-          docker ps -a
-          docker logs oracle-server
+#      - name: Check Oracle Listener Status
+#        run: |
+#          docker ps -a
+#          docker logs oracle-server
 
       - name: Verify Oracle Instant Client installation
         run: |
