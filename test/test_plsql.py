@@ -7,6 +7,8 @@ import cx_Oracle
 # for now, because oracle db container takes a very long time to initialize. Needs to be debugged on an
 # Ubuntu machine. 
 # Ubuntu is used over centos, because of its high availability in gh actions.
+#
+# GH Actions may not be the best workflow solution for Oracle testing.
 
 class TestOracleSQL(unittest.TestCase):
 
@@ -26,8 +28,9 @@ class TestOracleSQL(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        cls.cursor.close()
-        cls.connection.close()
+        #cls.cursor.close()
+        #cls.connection.close()
+        pass
 
     def execute_sql_file(self, sql_file_path, cursor, connection):
         try:
