@@ -1,0 +1,149 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Metadata": {
+        "AWS::CloudFormation::Designer": {
+            "25a04534-7d57-4ad0-b4c8-7cbc5559f033": {
+            "size": {
+                "width": 60,
+                "height": 60
+            },
+            "position": {
+                "x": 260,
+                "y": 80
+            },
+            "z": 1,
+            "embeds": []
+            }
+        }
+    },
+    "Parameters": {
+        "DBParameter": {
+        "Type": "String",
+        "Description": "DB path to ssm",
+        "Default": "testDatabase"
+        },
+        "UserParameter": {
+        "Type": "String",
+        "Default": "someusername"
+        },
+        "PasswordParameter": {
+        "Type": "String",
+        "Default": "password"
+        },
+        "PortParameter": {
+        "Type": "Number",
+        "Default": 5432
+        },
+        "s3bucket": {
+        "Type": "String",
+        "Default": "testdatabasedistinctname"
+        },
+        "dbInstanceParameter":{
+            "Type":"String"
+        },
+        "engineParameter":{
+            "Type":"String"
+        }
+    },
+    "Resources": {
+        "ec2TestSqlSecGroup":{
+            "Type" : "AWS::EC2::SecurityGroup",
+            "Properties" : {
+                "GroupDescription" : "Allow http to client host",
+                "SecurityGroupIngress" : [{
+                    "IpProtocol" : "tcp",
+                    "FromPort" : { "Ref": "PortParameter" },
+                    "ToPort" : { "Ref": "PortParameter" },
+                    "CidrIp" : "0.0.0.0/0"
+                }]
+            }
+        },
+        "rdsTestSqlSecGroup": {
+            "Type": "AWS::RDS::DBSecurityGroup",
+            "Properties": {
+            "GroupDescription" : "Allow http to client host",
+                "DBSecurityGroupIngress": [
+                    {
+                        "EC2SecurityGroupId": { "Fn::GetAtt": ["ec2TestSqlSecGroup", "GroupId"] }
+                    }
+                ]
+            }
+        },
+        "DBInstance": {
+            "Type": "AWS::RDS::DBInstance",
+            "Properties": {
+                "DBInstanceIdentifier": { "Ref": "DBParameter" },
+                "DBInstanceClass": { "Ref": "dbInstanceParameter" },
+                "DBSecurityGroups": [{ "Ref":"rdsTestSqlSecGroup"}],
+                "Engine": {"Ref": "engineParameter"}, 
+                "AllocatedStorage": "20",
+                "DBName": { "Ref": "DBParameter" },
+                "MasterUsername": { "Ref": "UserParameter" },
+                "MasterUserPassword": { "Ref": "PasswordParameter" },
+                "MultiAZ" : false,
+                "DeletionProtection": false
+            },
+            "DependsOn":"rdsTestSqlSecGroup"
+        },
+        "MyLambdaExecutionRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                            },
+                            "Action": "sts:AssumeRole"
+                        }
+                    ]
+                },
+                "Policies": [
+                    {
+                        "PolicyName": "LambdaExecutionPolicy",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "cloudshell:SendCommand",
+                                        "cloudshell:ListCommands",
+                                        "rds:DescribeDBInstances"
+                                    ],
+                                    "Resource": "*"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "ExecuteSQLFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+                "Handler": "index.handler",
+                "Role": { "Fn::GetAtt": ["MyLambdaExecutionRole", "Arn"] },
+                "FunctionName": "MyExecuteSQLFunction",
+                "Runtime": "python3.9",
+                "Code": {
+                    "S3Bucket": { "Ref": "s3bucket" },
+                    "S3Key": "DatabaseManager.py"
+                },
+                "Timeout": 300,
+                "Environment": {
+                    "Variables": {
+                        "DB_HOST": { "Fn::GetAtt": ["DBInstance", "Endpoint.Address"] },
+                        "DB_PORT": { "Ref": "PortParameter" },
+                        "DB_NAME": { "Ref": "DBParameter" },
+                        "DB_USER": { "Ref": "UserParameter" },
+                        "DB_PASSWORD": { "Ref": "PasswordParameter" },
+                        "DB_ARN": { "Fn::GetAtt": ["DBInstance", "Arn"] }
+                    }
+                }
+            }
+        }
+    }  
+}
