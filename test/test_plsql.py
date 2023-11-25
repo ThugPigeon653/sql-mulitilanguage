@@ -3,6 +3,7 @@ import unittest
 import os
 import cx_Oracle
 
+# BUG-001
 # Currently facing issues with connection not being established to oracle db. Tests have been commented out 
 # for now, because oracle db container takes a very long time to initialize. Needs to be debugged on an
 # Ubuntu machine. 

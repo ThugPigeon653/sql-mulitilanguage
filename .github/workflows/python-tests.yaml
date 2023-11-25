@@ -84,10 +84,12 @@ jobs:
           sudo sh -c "echo /opt/oracle/instantclient_21_1 > /etc/ld.so.conf.d/oracle-instantclient.conf"
           sudo ldconfig
 
-      - name: Run oracle container
-        run: |
-          docker pull oracledb19c/oracle.19.3.0-ee:oracle19.3.0-ee
-          docker run --name oracle-server -p 1521:1521 -p 5500:5500 -v /opt/oracle/oradata -d oracledb19c/oracle.19.3.0-ee:oracle19.3.0-ee
+# BUG-001 Debugging required for connection to oracle db. To save build time while out of service,
+# this image pull/run has been removed.
+#      - name: Run oracle container
+#        run: |
+#          docker pull oracledb19c/oracle.19.3.0-ee:oracle19.3.0-ee
+#          docker run --name oracle-server -p 1521:1521 -p 5500:5500 -v /opt/oracle/oradata -d oracledb19c/oracle.19.3.0-ee:oracle19.3.0-ee
 
       - name: Checkout source
         uses: actions/checkout@v2
@@ -117,6 +119,7 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v2
+        if: github.actor == 'ThugPigeon653'
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
@@ -125,6 +128,7 @@ jobs:
           title: Automated PR
           body: Created by a development branch
           branch: main
+        if: github.actor == 'ThugPigeon653'
           
       - name: Merge Pull Request
         uses: peter-evans/create-pull-request@v5
@@ -135,8 +139,9 @@ jobs:
           branch: main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: github.actor == 'ThugPigeon653'
 
       - name: Delete Branch
         run: |
           git push --delete origin ${{ github.ref }}
-        if: success()
+        if: success() && github.actor == 'ThugPigeon653'
