@@ -40,7 +40,7 @@ class testSQL(unittest.TestCase):
             return False
 
     def test_postgres(self):
-        os.chdir("T-SQL_(Microsoft_SQL)")
+        os.chdir("PLpgSQL_(postgres)")
         self.assertTrue(self.execute_sql_file('Drop.sql', self.cursor, self.connection))
         self.assertTrue(self.execute_sql_file('Create.sql', self.cursor, self.connection))
         self.assertTrue(self.execute_sql_file('CreateSequence.sql', self.cursor, self.connection))
