@@ -127,7 +127,7 @@ jobs:
       - name: Run postgres container
         run: |
           docker run --name pgtestdb -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres
-          wait 20
+          sleep 20
 
       - name: Setup py installation
         uses: actions/setup-python@v2
