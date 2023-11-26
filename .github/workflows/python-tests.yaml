@@ -140,7 +140,7 @@ jobs:
           pip install psycopg2-binary
 
       - name: PLpgSQL tests
-        run: python -m unittest test/test_plsql.py
+        run: python -m unittest test/test_plpgsql.py
 
   make-pr:
     needs: [plsql-test, tsql-test, plpgsql-test]
