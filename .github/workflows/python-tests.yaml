@@ -53,7 +53,6 @@ jobs:
   plsql-test:
     runs-on: ubuntu-latest
     steps:
-
       - name: Set Environment Variables (Oracle)
         run: |
           echo "ORACLE_SERVER=localhost" >> $GITHUB_ENV
@@ -113,8 +112,38 @@ jobs:
       - name: PLSQL tests
         run: python -m unittest test/test_plsql.py
 
+  plpgsql-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Environment Variables (TSQL)
+        run: |
+          echo "SQL_SERVER=localhost" >> $GITHUB_ENV
+          echo "SQL_UID=postgres" >> $GITHUB_ENV
+          echo "SQL_PWD=mysecretpassword" >> $GITHUB_ENV
+
+      - name: Checkout source
+        uses: actions/checkout@v2
+
+      - name: Run postgres container
+        run: |
+          docker run --name pgtestdb -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres
+          wait 20
+
+      - name: Setup py installation
+        uses: actions/setup-python@v2
+        with: 
+          python-version: 3.x
+      
+      - name: Install dependancies
+        run: |
+          python -m pip install --upgrade pip
+          pip install psycopg2-binary
+
+      - name: PLpgSQL tests
+        run: python -m unittest test/test_plsql.py
+
   make-pr:
-    needs: [plsql-test, tsql-test]
+    needs: [plsql-test, tsql-test, plpgsql-test]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
