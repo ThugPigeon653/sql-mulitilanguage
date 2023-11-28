@@ -159,7 +159,7 @@ jobs:
       - name: Run mysql container
         run: |
           docker pull mysql
-          docker run --name mysql-testQL -e MYSQL_ROOT_PASSWORD=my-secret-pw -p 8080:8080 -d mysql:latest
+          docker run --name mysql-testQL -e MYSQL_ROOT_PASSWORD=my-secret-pw -p 3306:3306 -d mysql:latest
           sleep 20
           docker logs mysql-testQL
 

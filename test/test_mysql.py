@@ -16,7 +16,7 @@ class testSQL(unittest.TestCase):
         sql_pwd = os.getenv("SQL_PWD")
         cls.connection = mysql.connector.connect(
             host=sql_server,
-            port=8080,
+            port=3306,
             user=sql_uid,
             password=sql_pwd,
             database=sql_database
