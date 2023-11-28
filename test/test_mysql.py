@@ -19,7 +19,7 @@ class testSQL(unittest.TestCase):
             port=8080,
             user=sql_uid,
             password=sql_pwd,
-            Database=sql_database
+            database=sql_database
         )
         cls.cursor = cls.connection.cursor()
 

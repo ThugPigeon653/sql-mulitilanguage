@@ -151,7 +151,7 @@ jobs:
           echo "SQL_SERVER=localhost" >> $GITHUB_ENV
           echo "SQL_UID=root" >> $GITHUB_ENV
           echo "SQL_PWD=my-secret-pw" >> $GITHUB_ENV
-          echo "SQL_DATABASE=my-secret-pw" >> $GITHUB_ENV
+          echo "SQL_DATABASE=mysql-testql" >> $GITHUB_ENV
 
       - name: Checkout source
         uses: actions/checkout@v2
