@@ -156,7 +156,7 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v2
 
-      - name: Run postgres container
+      - name: Run mysql container
         run: |
           docker pull mysql
           docker run --name mysql-testQL -e MYSQL_ROOT_PASSWORD=my-secret-pw -p 8080:8080 -d mysql:latest

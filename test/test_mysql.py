@@ -17,9 +17,9 @@ class testSQL(unittest.TestCase):
         cls.connection = mysql.connector.connect(
             host=sql_server,
             port=8080,
-            user={sql_uid},
-            password={sql_pwd},
-            Database={sql_database}
+            user=sql_uid,
+            password=sql_pwd,
+            Database=sql_database
         )
         cls.cursor = cls.connection.cursor()
 
