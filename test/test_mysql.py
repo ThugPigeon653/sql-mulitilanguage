@@ -14,6 +14,11 @@ class testSQL(unittest.TestCase):
         sql_database = os.getenv("SQL_DATABASE")
         sql_uid = os.getenv("SQL_UID")
         sql_pwd = os.getenv("SQL_PWD")
+
+        print("SQL_SERVER:", sql_server)
+        print("SQL_DATABASE:", sql_database)
+        print("SQL_UID:", sql_uid)
+        print("SQL_PWD:", sql_pwd)
         cls.connection = mysql.connector.connect(
             host=sql_server,
             port=3306,
