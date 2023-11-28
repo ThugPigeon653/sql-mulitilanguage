@@ -151,6 +151,7 @@ jobs:
           echo "SQL_SERVER=localhost" >> $GITHUB_ENV
           echo "SQL_UID=root" >> $GITHUB_ENV
           echo "SQL_PWD=my-secret-pw" >> $GITHUB_ENV
+          echo "SQL_DATABASE=my-secret-pw" >> $GITHUB_ENV
 
       - name: Checkout source
         uses: actions/checkout@v2
@@ -158,7 +159,7 @@ jobs:
       - name: Run postgres container
         run: |
           docker pull mysql
-          docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -p 8080:8080
+          docker run --name mysql-testQL -e MYSQL_ROOT_PASSWORD=my-secret-pw -p 8080:8080 -d mysql:latest
 
       - name: Setup py installation
         uses: actions/setup-python@v2
