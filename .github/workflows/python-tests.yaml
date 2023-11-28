@@ -160,6 +160,8 @@ jobs:
         run: |
           docker pull mysql
           docker run --name mysql-testQL -e MYSQL_ROOT_PASSWORD=my-secret-pw -p 8080:8080 -d mysql:latest
+          sleep 20
+          docker logs mysql-testql
 
       - name: Setup py installation
         uses: actions/setup-python@v2
