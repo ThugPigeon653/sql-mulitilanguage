@@ -146,7 +146,7 @@ jobs:
   mysql-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Set Environment Variables (TSQL)
+      - name: Set Environment Variables (MySQL)
         run: |
           echo "SQL_SERVER=localhost" >> $GITHUB_ENV
           echo "SQL_UID=root" >> $GITHUB_ENV

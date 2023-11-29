@@ -10,10 +10,10 @@ class testSQL(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        sql_server = os.getenv("SQL_SERVER")
-        sql_database = os.getenv("SQL_DATABASE")
-        sql_uid = os.getenv("SQL_UID")
-        sql_pwd = os.getenv("SQL_PWD")
+        sql_server = 'localhost'#os.getenv("SQL_SERVER")
+        sql_database = 'mysql-testQL'#os.getenv("SQL_DATABASE")
+        sql_uid = 'root'#os.getenv("SQL_UID")
+        sql_pwd = 'my-secret-pw'#os.getenv("SQL_PWD")
 
         print("SQL_SERVER:", sql_server)
         print("SQL_DATABASE:", sql_database)
@@ -23,8 +23,7 @@ class testSQL(unittest.TestCase):
             host=sql_server,
             port=3306,
             user=sql_uid,
-            password=sql_pwd,
-            database=sql_database
+            password=sql_pwd
         )
         cls.cursor = cls.connection.cursor()
 
@@ -46,16 +45,9 @@ class testSQL(unittest.TestCase):
             return False
 
     def test_tsql(self):
-        os.chdir("T-SQL_(Microsoft_SQL)")
-        self.assertTrue(self.execute_sql_file('Drop.sql', self.cursor, self.connection))
+        os.chdir("MySQL_(MySQL)")
         self.assertTrue(self.execute_sql_file('Schema.sql', self.cursor, self.connection))
-        self.assertTrue(self.execute_sql_file('Create.sql', self.cursor, self.connection))
-        self.assertTrue(self.execute_sql_file('CreateSequence.sql', self.cursor, self.connection))
-        self.assertTrue(self.execute_sql_file('CreateTrigger.sql', self.cursor, self.connection))
-        self.assertTrue(self.execute_sql_file('CreateProcedure.sql', self.cursor, self.connection))
-        self.assertTrue(self.execute_sql_file('CreateFunction.sql', self.cursor, self.connection))
-        self.assertTrue(self.execute_sql_file('Insert.sql', self.cursor, self.connection))
-        self.assertTrue(self.execute_sql_file('Query.sql', self.cursor, self.connection))
-        self.assertTrue(self.execute_sql_file('Drop.sql', self.cursor, self.connection))
-
+        self.assertTrue(self.execute_sql_file('CreateOrganism.sql', self.cursor, self.connection))
+        self.assertTrue(self.execute_sql_file('CreatePlant.sql', self.cursor, self.connection))
+        self.assertTrue(self.execute_sql_file('CreateAnimal.sql', self.cursor, self.connection))
         os.chdir("..")

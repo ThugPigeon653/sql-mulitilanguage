@@ -1,8 +1,7 @@
-BEGIN TRANSACTION
+START TRANSACTION;
     DROP PROCEDURE IF EXISTS Life.InsertOrganism;
     DROP FUNCTION IF EXISTS Life.GetAverageLifespan;
     DROP TRIGGER IF EXISTS Life.PrefixColourTrigger;
-    DROP SEQUENCE IF EXISTS Life.org_pk;
     DROP TABLE IF EXISTS Life.Animal;
     DROP TABLE IF EXISTS Life.Plant;
     DROP TABLE IF EXISTS Life.Organism;

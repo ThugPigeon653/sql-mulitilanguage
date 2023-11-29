@@ -1,1 +1,1 @@
-CREATE Schema Life;
+CREATE Schema IF NOT EXISTS Life;

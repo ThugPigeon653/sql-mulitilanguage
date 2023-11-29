@@ -7,12 +7,9 @@
     BEGIN
         DECLARE @org_id INT;
 
-        -- Generate the next value for the org_pk sequence
-        SET @org_id = NEXT VALUE FOR Life.org_pk;
+        INSERT INTO Life.Organism (avg_lifespan, species, colour)
+        VALUES ( @avg_lifespan, @species, @colour);
 
-        INSERT INTO Life.Organism (org_id, avg_lifespan, species, colour)
-        VALUES (@org_id, @avg_lifespan, @species, @colour);
-
-        INSERT INTO Life.Animal (org_id, food_type)
-        VALUES (@org_id, @food_type);
+        INSERT INTO Life.Animal (food_type)
+        VALUES (@food_type);
     END;
